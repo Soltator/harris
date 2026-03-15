@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harris KX • повний тест (60 питань)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f5efe6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff9ef;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid #e8dccc;
+        }
+        
+        h1 {
+            color: #5e4b3c;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #e8dccc;
+            padding-bottom: 15px;
+        }
+        
+        .subtitle {
+            color: #8b7a6b;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+        
+        .panel {
+            background: #f5ede1;
+            border-radius: 50px;
+            padding: 15px 25px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e0d2c0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .score {
+            background: #b7a187;
+            color: white;
+            padding: 10px 30px;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+        
+        .btn {
+            background: white;
+            border: 2px solid #b7a187;
+            color: #5e4b3c;
+            padding: 10px 25px;
+            margin: 0 5px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background: #b7a187;
+            color: white;
+        }
+        
+        .btn.danger {
+            border-color: #d19a9a;
+            color: #a15a5a;
+        }
+        
+        .btn.danger:hover {
+            background: #d19a9a;
+            color: white;
+        }
+        
+        .questions {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .card {
+            background: #fffcf5;
+            border: 1px solid #e8dccc;
+            border-radius: 25px;
+            padding: 25px;
+            transition: 0.2s;
+        }
+        
+        .card.correct {
+            background: #e8f3e8;
+            border-left: 8px solid #7a9e7a;
+        }
+        
+        .card.incorrect {
+            background: #fceaea;
+            border-left: 8px solid #d19a9a;
+        }
+        
+        .card.partial {
+            background: #fff3d6;
+            border-left: 8px solid #e6b87a;
+        }
+        
+        .qtitle {
+            font-weight: 600;
+            color: #5e4b3c;
+            margin-bottom: 15px;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .qnum {
+            background: #e8dccc;
+            padding: 5px 15px;
+            border-radius: 30px;
+            margin-right: 15px;
+            font-size: 0.9rem;
+            color: #5e4b3c;
+            white-space: nowrap;
+        }
+        
+        .qtext {
+            line-height: 1.5;
+        }
+        
+        .opts {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        
+        .opt {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            background: #f5efe6;
+            border-radius: 40px;
+            cursor: pointer;
+            border: 1px solid #e0d2c0;
+            transition: 0.1s;
+        }
+        
+        .opt:hover {
+            background: #e8dccc;
+        }
+        
+        .opt input[type="checkbox"] {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            accent-color: #b7a187;
+            cursor: pointer;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px 20px;
+            background: #f5efe6;
+            border-radius: 20px;
+            border-left: 5px solid #b7a187;
+        }
+        
+        .correct-msg {
+            color: #2d6a2d;
+            font-weight: bold;
+        }
+        
+        .wrong-msg {
+            color: #b33c3c;
+            font-weight: bold;
+        }
+        
+        .partial-msg {
+            color: #b87c2d;
+            font-weight: bold;
+        }
+        
+        .explain {
+            margin-top: 10px;
+            color: #6b5a4b;
+            line-height: 1.5;
+        }
+        
+        .explain ul {
+            margin-left: 25px;
+            margin-top: 8px;
+        }
+        
+        hr {
+            margin: 30px 0 20px;
+            border: none;
+            border-top: 2px dashed #e0d2c0;
+        }
+        
+        footer {
+            text-align: center;
+            color: #b7a187;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📡 Harris KX • повний тест</h1>
+    <div class="subtitle">60 питань з множинним вибором (за конспектом, стор. 8-22)</div>
+    
+    <div class="panel">
+        <span class="score" id="scoreDisplay">0/60</span>
+        <div class="stats">
+            <span id="correctCount" style="color:#2d6a2d;">✅ 0</span>
+            <span id="partialCount" style="color:#b87c2d;">⚠️ 0</span>
+            <span id="wrongCount" style="color:#b33c3c;">❌ 0</span>
+        </div>
+        <div>
+            <button class="btn" id="checkBtn">✅ Перевірити всі</button>
+            <button class="btn" id="resetBtn">🔄 Скинути</button>
+            <button class="btn danger" id="showAnswersBtn">👁️ Показати відповіді</button>
+        </div>
+    </div>
+    
+    <div class="questions" id="questionsContainer"></div>
+    
+    <hr>
+    <footer>На основі конспекту • Harris KX • молодшій сестрі для вивчення</footer>
+</div>
+
+<script>
+(function() {
+    const questions = [
+        // ============ МОДУЛЯЦІЇ ============
+        {
+            q: "Які види модуляції підтримує радіостанція Harris RF-7800H-MP?",
+            opts: ["USB (Upper Side Band)", "LSB (Lower Side Band)", "AME (амплітудна з несучою)", "CW (телеграфія)", "FM (частотна модуляція)"],
+            correct: [0, 1, 2, 3, 4],  // Всі підтримуються!
+            exp: "RF-7800H-MP підтримує USB, LSB, AME, CW, FM. FM — в УКХ діапазоні."
+        },
+        {
+            q: "Які види модуляції використовуються для роботи в КХ діапазоні?",
+            opts: ["USB", "LSB", "AME", "CW", "FM"],
+            correct: [0, 1, 2, 3],  // FM тільки в УКХ
+            exp: "В КХ діапазоні працюють USB, LSB, AME, CW. FM використовується тільки в УКХ."
+        },
+        {
+            q: "Які види модуляції використовуються для роботи з однотипними радіостанціями Harris?",
+            opts: ["USB", "LSB", "AME", "FM"],
+            correct: [0, 3],  // USB для КХ, FM для УКХ
+            exp: "З однотипними Harris працюють: USB (КХ діапазон) та FM (УКХ діапазон)."
+        },
+        {
+            q: "Які види модуляції використовуються для роботи з радіостанціями старого парку?",
+            opts: ["USB", "LSB", "AME", "CW"],
+            correct: [2],  // Тільки AME
+            exp: "Для сумісності зі старими радіостанціями використовують AME (амплітудну модуляцію з несучою)."
+        },
+        {
+            q: "Які види модуляції використовують радіоаматори в КХ діапазоні?",
+            opts: ["USB", "LSB", "AME", "CW"],
+            correct: [1],  // LSB
+            exp: "Радіоаматори традиційно використовують LSB (нижню бічну смугу) в КХ діапазоні."
+        },
+        {
+            q: "Які види модуляції використовують азбуку Морзе?",
+            opts: ["USB", "LSB", "AME", "CW"],
+            correct: [3],  // CW
+            exp: "CW (Continuous Wave) — телеграфний режим для азбуки Морзе."
+        },
+        {
+            q: "В яких діапазонах працює частотна модуляція (FM)?",
+            opts: ["КХ (короткі хвилі)", "УКХ (ультракороткі хвилі)", "В обох", "Не підтримується"],
+            correct: [1],  // Тільки УКХ
+            exp: "FM працює тільки в УКХ діапазоні. В КХ діапазоні FM не використовується."
+        },
+        {
+            q: "Радіостанція MPR-9600-MP підтримує частотну модуляцію (FM)?",
+            opts: ["Так, в КХ", "Так, в УКХ", "Ні, не підтримує", "Тільки через додаткове обладнання"],
+            correct: [2],  // Не підтримує
+            exp: "MPR-9600-MP не має FM (згідно конспекту: «радіостанції MPR-9600-MP не має»)."
+        },
+        
+        // ============ РЕЖИМИ РОБОТИ ============
+        {
+            q: "Які режими роботи підтримує радіостанція Harris RF-7800H-MP?",
+            opts: ["FIX (фіксована частота)", "ALE (автоматичне встановлення)", "3G (модернізований ALE)", "HOP (ППРЧ)", "3G+ (комбінований)"],
+            correct: [0, 1, 2, 3, 4],  // Всі
+            exp: "RF-7800H-MP підтримує всі режими: FIX, ALE, 3G, HOP, 3G+."
+        },
+        {
+            q: "Які режими роботи підтримує радіостанція MPR-9600-MP?",
+            opts: ["FIX", "ALE", "3G", "HOP", "3G+"],
+            correct: [0, 1, 3],  // FIX, ALE, HOP
+            exp: "MPR-9600-MP не підтримує 3G та 3G+ (згідно конспекту: «радіостанції MPR-9600-MP не має»)."
+        },
+        {
+            q: "Скільки каналів можна запрограмувати в різних режимах?",
+            opts: ["FIX: до 200 каналів (0-199)", "3G: до 63 каналів (100-162)", "HOP: до 19 хопсетів", "ALE: до 200 каналів", "FIX: до 100 каналів"],
+            correct: [0, 1, 2],  // Тільки правильні
+            exp: "FIX: до 200 каналів (0-199). 3G: до 63 каналів (100-162). HOP: до 19 хопсетів."
+        },
+        {
+            q: "Для чого призначений режим ALE?",
+            opts: ["Фіксована робоча частота", "Адаптивний вибір каналу з автоматичним встановленням зв'язку", "Захист від перешкод", "Передача даних з високою швидкістю"],
+            correct: [1],  // Тільки адаптивний вибір
+            exp: "ALE (Automatic Link Establishment) — автоматичне встановлення зв'язку з адаптивним вибором каналу."
+        },
+        {
+            q: "Для чого призначений режим HOP?",
+            opts: ["Фіксована частота", "Автоматичне встановлення зв'язку", "Псевдовипадкова перестройка робочої частоти (ППРЧ)", "Економія енергії"],
+            correct: [2],  // ППРЧ
+            exp: "HOP — Frequency Hopping, стрибкоподібна зміна частоти для завадозахищеності."
+        },
+        {
+            q: "Які переваги має режим 3G перед звичайним ALE?",
+            opts: ["Більша швидкість встановлення зв'язку", "Можливість відправки голосових повідомлень (LVD)", "Можливість відправки GPS-координат", "Має частотні плани", "Працює без синхронізації"],
+            correct: [0, 1, 2, 3],  // Все крім "без синхронізації"
+            exp: "3G швидший, підтримує LVD (голосові повідомлення), GPS-рапорти, має частотні плани (до 10 каналів). Але потребує синхронізації."
+        },
+        {
+            q: "Які режими потребують синхронізації часу?",
+            opts: ["FIX", "ALE", "3G", "HOP"],
+            correct: [2, 3],  // 3G і HOP
+            exp: "3G потребує синхронізації до 7 хвилин, HOP — до 90 секунд. FIX і ALE не потребують синхронізації."
+        },
+        {
+            q: "Яка допустима похибка часу для різних режимів?",
+            opts: ["3G: ±7 хвилин", "HOP: ±1,5 хвилини", "HOP: ±30 секунд", "3G: ±1 хвилина"],
+            correct: [0, 1],  // Правильні значення
+            exp: "3G: синхронізація до 7 хвилин. HOP: до 90 секунд (±1,5 хв)."
+        },
+        {
+            q: "Що таке 3G+?",
+            opts: ["Покращений HOP", "Режим, що контролює одночасно ALE та 3G мережі", "Тільки передача даних", "Режим для УКХ"],
+            correct: [1],  // Контроль обох мереж
+            exp: "3G+ дозволяє одночасно контролювати мережі ALE та 3G."
+        },
+        
+        // ============ МОДЕМИ ============
+        {
+            q: "Які модеми підтримує радіостанція RF-7800H-MP?",
+            opts: ["MIL-110B", "SERIAL", "ARQ", "WBHF", "XDL", "WBFSK"],
+            correct: [0, 1, 2, 3, 4, 5],  // Всі
+            exp: "RF-7800H-MP підтримує всі типи модемів: MIL-110B, SERIAL, ARQ, WBHF, XDL, WBFSK."
+        },
+        {
+            q: "Які модеми НЕ підтримує радіостанція MPR-9600-MP?",
+            opts: ["MIL-110B", "SERIAL", "ARQ", "WBHF", "XDL", "WBFSK"],
+            correct: [3, 4, 5],  // WBHF, XDL, WBFSK
+            exp: "MPR-9600-MP не підтримує WBHF, XDL, WBFSK (позначені червоним у конспекті)."
+        },
+        {
+            q: "Для яких режимів призначений модем MIL-110B?",
+            opts: ["FIX", "ALE", "3G", "HOP"],
+            correct: [0, 1],  // FIX та ALE
+            exp: "MIL-110B використовується в режимах FIX та ALE."
+        },
+        {
+            q: "Для яких режимів призначені модеми SERIAL та ARQ?",
+            opts: ["FIX", "ALE", "HOP", "3G"],
+            correct: [0, 1, 2],  // FIX, ALE, HOP
+            exp: "SERIAL та ARQ працюють в режимах FIX, ALE, HOP зі швидкістю 2400 біт/с."
+        },
+        {
+            q: "Які модеми працюють тільки в режимі 3G?",
+            opts: ["MIL-110B", "SERIAL", "WBHF", "XDL"],
+            correct: [2, 3],  // WBHF та XDL
+            exp: "WBHF (120 кбіт/с) та XDL (75-9600 біт/с) працюють тільки в режимі 3G."
+        },
+        {
+            q: "Які швидкості передачі даних забезпечують різні модеми?",
+            opts: ["SERIAL/ARQ: 2400 біт/с", "WBHF: до 120 кбіт/с", "XDL: 75-9600 біт/с", "WBFSK: для УКХ", "MIL-110B: до 64 кбіт/с"],
+            correct: [0, 1, 2, 3],  // Все правильно
+            exp: "SERIAL/ARQ: 2400 біт/с. WBHF: 120 кбіт/с. XDL: 75-9600 біт/с. WBFSK: для УКХ."
+        },
+        {
+            q: "Для якого діапазону призначений модем WBFSK?",
+            opts: ["КХ діапазон", "УКХ діапазон", "Обидва", "Тільки для супутникового зв'язку"],
+            correct: [1],  // УКХ
+            exp: "WBFSK — широкосмуговий режим для роботи тільки в УКХ діапазоні."
+        },
+        
+        // ============ ВОКОДЕРИ ============
+        {
+            q: "Які типи вокодерів підтримує радіостанція Harris?",
+            opts: ["CLR (без вокодера, аналог)", "CVSD (дельта-модуляція, УКХ)", "AVS (аналогове скремблювання)", "DV24/DV6 (застарілі цифрові)", "ME24/ME12/ME6 (сучасні MELP)"],
+            correct: [0, 1, 2, 3, 4],  // Всі
+            exp: "Harris підтримує всі типи: CLR, CVSD, AVS, DV24/DV6, ME24/ME12/ME6."
+        },
+        {
+            q: "Які вокодери відносяться до сучасних систем (MELP)?",
+            opts: ["DV24", "DV6", "ME24", "ME12", "ME6"],
+            correct: [2, 3, 4],  // ME24, ME12, ME6
+            exp: "Сучасні MELP: ME24 (2400 біт/с), ME12 (1200 біт/с), ME6 (600 біт/с)."
+        },
+        {
+            q: "Які вокодери відносяться до застарілих систем?",
+            opts: ["DV24", "DV6", "ME24", "ME12"],
+            correct: [0, 1],  // DV24, DV6
+            exp: "Застарілі: DV24 (2400 біт/с), DV6 (600 біт/с)."
+        },
+        {
+            q: "Для якого діапазону призначений вокодер CVSD?",
+            opts: ["КХ діапазон", "УКХ діапазон", "Обидва", "Тільки для супутникового зв'язку"],
+            correct: [1],  // УКХ
+            exp: "CVSD (дельта-модуляція) використовується для роботи в УКХ діапазоні."
+        },
+        {
+            q: "Що таке AVS?",
+            opts: ["Цифровий вокодер", "Аналогове шифрування мови (скремблювання)", "Без вокодера", "MELP вокодер"],
+            correct: [1],  // Аналогове скремблювання
+            exp: "AVS — аналогове шифрування мови (скремблювання)."
+        },
+        {
+            q: "Що таке CLR?",
+            opts: ["Цифровий вокодер", "Аналогова телефонія без вокодера", "Шифрування", "Режим роботи"],
+            correct: [1],  // Аналог
+            exp: "CLR (Clear) — без вокодера, аналогова телефонія."
+        },
+        
+        // ============ ТЕХНІЧНІ ХАРАКТЕРИСТИКИ ============
+        {
+            q: "Які діапазони частот підтримують різні моделі?",
+            opts: ["RF-7800H-MP: 1,5-59,9999 МГц", "MPR-9600-MP: 1,6-29,9999 МГц", "RF-7800H-MP: 30-300 МГц", "MPR-9600-MP: 1,5-59,9999 МГц"],
+            correct: [0, 1],  // Правильні діапазони
+            exp: "RF-7800H-MP: 1,5-59,9999 МГц. MPR-9600-MP: 1,6-29,9999 МГц."
+        },
+        {
+            q: "Які рівні вихідної потужності підтримує RF-7800H-MP?",
+            opts: ["LOW: 1 Вт", "MEDIUM: 5 Вт", "HIGH: 20 Вт", "LOW: 0,5 Вт", "HIGH: 50 Вт"],
+            correct: [0, 1, 2],  // LOW=1, MEDIUM=5, HIGH=20
+            exp: "LOW = 1 Вт, MEDIUM = 5 Вт, HIGH = 20 Вт (в КХ)."
+        },
+        {
+            q: "Яка потужність RF-7800H-MP в УКХ діапазоні?",
+            opts: ["До 5 Вт", "До 10 Вт", "До 20 Вт", "До 50 Вт"],
+            correct: [1],  // 10 Вт
+            exp: "В УКХ діапазоні RF-7800H-MP забезпечує потужність до 10 Вт."
+        },
+        {
+            q: "Які джерела живлення можна використовувати для Harris?",
+            opts: ["АКБ BB-2590/U Li-ION (24В, 7,5 А/год)", "АКБ BA-5390/U Li-MnO2 (24В, 11,2 А/год)", "Мережа 220В через адаптер", "Автомобільний акумулятор 12В"],
+            correct: [0, 1],  // Тільки військові АКБ
+            exp: "Живлення від BB-2590/U (заряджається) та BA-5390/U (не заряджається). Діапазон 21,5-32 В, номінал 26 В."
+        },
+        {
+            q: "Яка номінальна напруга живлення Harris KX?",
+            opts: ["12 В", "24 В", "26 В", "32 В"],
+            correct: [2],  // 26 В
+            exp: "Номінальна напруга 26 В (діапазон 21,5-32 В)."
+        },
+        {
+            q: "Які антени входять до складу обладнання RF-7800H-MP?",
+            opts: ["Антена штирьова ОЕ-505", "Антена диполь RF-1940-AT001", "GPS антена", "Спіральна антена"],
+            correct: [0, 1, 2],  // Три типи
+            exp: "Склад: штирьова ОЕ-505, диполь RF-1940-AT001, GPS антена."
+        },
+        
+        // ============ ПРАКТИЧНІ АСПЕКТИ ============
+        {
+            q: "Для чого проводиться LQA-тест?",
+            opts: ["Визначення координат", "Аналіз якості каналів зв'язку", "Вибір кращих каналів", "Тест потужності передавача"],
+            correct: [1, 2],  // Аналіз якості та вибір кращих
+            exp: "LQA (Link Quality Analysis) — аналіз якості каналу для виявлення кращих каналів."
+        },
+        {
+            q: "Які види LQA-тесту існують?",
+            opts: ["EXCHANGE (двосторонній)", "SOUND (односторонній)", "FULL (повний)", "QUICK (швидкий)"],
+            correct: [0, 1],  // EXCHANGE та SOUND
+            exp: "EXCHANGE — між двома кореспондентами в обидві сторони. SOUND — від головної до підлеглої."
+        },
+        {
+            q: "Що таке LDV (Low Data Rate Digital Voice)?",
+            opts: ["Голосове повідомлення в режимі 3G", "Текстова SMS", "Режим роботи", "Тип модуляції"],
+            correct: [0],  // Голосове повідомлення в 3G
+            exp: "LDV — голосове повідомлення в режимі 3G. Макс. тривалість 1 хв 50 с."
+        },
+        {
+            q: "Яка максимальна тривалість голосового повідомлення LDV?",
+            opts: ["30 секунд", "1 хвилина 50 секунд", "3 хвилини", "5 хвилин"],
+            correct: [1],  // 1хв 50с
+            exp: "Об'єм повідомлення LDV — 1 хвилина 50 секунд."
+        },
+        {
+            q: "Які алгоритми шифрування використовуються в Harris?",
+            opts: ["Citadel-128 (32 символи)", "Citadel-256 (64 символи)", "AES-128 (32 символи)", "AES-256 (64 символи)"],
+            correct: [0, 1, 2, 3],  // Всі
+            exp: "Використовуються Citadel (128/256 біт) та AES (128/256 біт)."
+        },
+        {
+            q: "Яке призначення кнопок на передній панелі?",
+            opts: ["CALL — виклик/синхронізація ALE/3G/HOP", "MODE — зміна режиму роботи", "SQL — шумоподавлювач", "PGM — програмування", "LT — зміна яскравості"],
+            correct: [0, 1, 2, 3, 4],  // Всі
+            exp: "CALL: виклик. MODE: режим. SQL: шумоподавлення. PGM: програмування. LT: яскравість."
+        },
+        {
+            q: "Які положення має перемикач на передній панелі?",
+            opts: ["OFF — вимкнено", "PT — відкритий режим", "CT — засекречений зв'язок", "LD — технічне обслуговування", "Z — стирання параметрів", "CLR — довготривале зберігання"],
+            correct: [0, 1, 2, 3, 4, 5],  // Всі 6 положень
+            exp: "Положення: OFF, PT, CT, LD, Z, CLR. Кожне має своє призначення."
+        },
+        {
+            q: "Які причини не проходження синхронізації в режимі HOP?",
+            opts: ["Неправильний час на годинниках радіостанцій", "Різниця часу більше ±1,5 хвилини", "Відсутність GPS антени", "Низький заряд батареї"],
+            correct: [0, 1],  // Час
+            exp: "Головна причина — неправильно встановлений час на годинниках (похибка більше ±1,5 хв)."
+        },
+        {
+            q: "Коли потрібно проводити синхронізацію в режимі HOP?",
+            opts: ["При кожній зміні хопсета", "Один раз на день", "Тільки при першому включенні", "Не потребує синхронізації"],
+            correct: [0],  // При зміні хопсета
+            exp: "При кожній зміні хопсета (HOP1, HOP2...) проводиться синхронізація!"
+        }
+    ];
+
+    const container = document.getElementById('questionsContainer');
+    const scoreSpan = document.getElementById('scoreDisplay');
+    const correctSpan = document.getElementById('correctCount');
+    const partialSpan = document.getElementById('partialCount');
+    const wrongSpan = document.getElementById('wrongCount');
+
+    function render() {
+        let html = '';
+        questions.forEach((q, i) => {
+            html += `
+                <div class="card" id="card-${i}">
+                    <div class="qtitle">
+                        <span class="qnum">${i+1}</span>
+                        <span class="qtext">${q.q}</span>
+                    </div>
+                    <div class="opts" id="opts-${i}">
+                        ${
